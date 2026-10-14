@@ -1,0 +1,34 @@
+{
+  "game": {
+    "title": "Cuánto conoces?",
+    "timer_seconds": 90,
+    "points_add": 10,
+    "points_subtract": 5,
+    "team_count": 5,
+    "teams": [
+      {"name": "Equipo 1", "color": "#35C9AD"},
+      {"name": "Equipo 2", "color": "#E36B9B"},
+      {"name": "Equipo 3", "color": "#6A9EFC"},
+      {"name": "Equipo 4", "color": "#F0C54B"},
+      {"name": "Equipo 5", "color": "#BA8CFF"},
+      {"name": "Equipo 6", "color": "#FF8A65"}
+    ]
+  },
+  "theme": {
+    "font_family": "Georgia",
+    "menu_background": "#242424",
+    "question_background": "#1D2530",
+    "timeout_background": "#8B1D2C",
+    "answer_background": "#090B10",
+    "text_color": "#FFFFFF",
+    "muted_text_color": "#D1D5DB",
+    "accent_color": "#48DEC2",
+    "button_color": "#0B79D0",
+    "used_card_color": "#4B5563",
+    "menu_image": "",
+    "question_image": "",
+    "timeout_image": "",
+    "answer_image": ""
+  },
+  "sound_enabled": true
+}

@@ -1,0 +1,119 @@
+{
+  "categories": [
+    {
+      "id": "random",
+      "name": "RANDOM",
+      "screen_name": "RANDOM",
+      "color": "#238A76",
+      "questions": [
+        {
+          "value": 50,
+          "prompt": "¿Cuántos presidentes hubo en el Perú durante 2020?",
+          "choices": ["A) 1", "B) 2", "C) 3", "D) 4"],
+          "answer": "C) 3"
+        },
+        {
+          "value": 40,
+          "prompt": "¿Qué países conforman la Alianza del Pacífico?",
+          "choices": ["A) Colombia, Argentina, Perú y Chile", "B) Perú, Chile, Argentina y Colombia", "C) Chile, Perú, Colombia y México", "D) México, Colombia, Bolivia y Perú"],
+          "answer": "C) Chile, Perú, Colombia y México"
+        },
+        {
+          "value": 30,
+          "prompt": "¿Cuál es el nombre secular del papa León XIV?",
+          "choices": ["A) Robert Francisco Prevost", "B) Jorge Bergoglio", "C) Robert Francis Prevost", "D) Roberto Prevost"],
+          "answer": "C) Robert Francis Prevost"
+        },
+        {
+          "value": 20,
+          "prompt": "¿Qué chef peruano lidera el restaurante Central?",
+          "choices": ["A) Rodrigo Fernandini", "B) Erick Paucar", "C) Virgilio Martínez", "D) Gastón Acurio"],
+          "answer": "C) Virgilio Martínez"
+        },
+        {
+          "value": 10,
+          "prompt": "¿Qué significan las siglas IPEN?",
+          "choices": ["A) Instituto Peruano de Energía Nuclear", "B) Instituto Peruano de Estadística Nacional", "C) Instituto Peruano de Economía Nacional", "D) Instituto Peruano de Energía Nacional"],
+          "answer": "A) Instituto Peruano de Energía Nuclear"
+        }
+      ]
+    },
+    {
+      "id": "adivinanzas",
+      "name": "Adivinanzas",
+      "screen_name": "¿QUÉ SERÁ?",
+      "color": "#7A31AB",
+      "questions": [
+        {"value": 50, "prompt": "Cae lentamente y no se mata, cae en el río y se desbarata.", "choices": [], "answer": "Papel"},
+        {"value": 40, "prompt": "Rodando por un camino, van unos largos cajones que producen mucho ruido.", "choices": [], "answer": "Tren"},
+        {"value": 30, "prompt": "Cuando calor tengo, frío; y no frío sin calor.", "choices": [], "answer": "Sartén"},
+        {"value": 20, "prompt": "Tengo agujas y no sé coser, tengo números y no sé leer.", "choices": [], "answer": "Reloj"},
+        {"value": 10, "prompt": "Soy pequeña y de cristal, méteme al hoyo y no perderás.", "choices": [], "answer": "Canica"}
+      ]
+    },
+    {
+      "id": "formacion_humana",
+      "name": "Formación Humana",
+      "screen_name": "POLITÓLOGOS",
+      "color": "#0876C9",
+      "questions": [
+        {
+          "value": 50,
+          "prompt": "¿Cómo está compuesto el Congreso de la República tras la restitución del sistema bicameral?",
+          "choices": ["A) 190 parlamentarios: 130 senadores y 60 diputados", "B) 130 congresistas", "C) 190 diputados", "D) 190 parlamentarios: 60 senadores y 130 diputados"],
+          "answer": "D) 190 parlamentarios: 60 senadores y 130 diputados"
+        },
+        {
+          "value": 40,
+          "prompt": "¿Quién es el actual ministro de Economía?",
+          "choices": ["A) Aníbal Torres Vásquez", "B) Elmer Cuba", "C) César Astudillo", "D) Rafael Rey Rey"],
+          "answer": "B) Elmer Cuba"
+        },
+        {
+          "value": 30,
+          "prompt": "¿Quién fue el primer presidente del Perú?",
+          "choices": ["A) José Bernardo de Tagle", "B) José de la Riva Agüero", "C) José de la Mar", "D) Luis José de Orbegoso"],
+          "answer": "B) José de la Riva Agüero"
+        },
+        {
+          "value": 20,
+          "prompt": "¿Cuántos días permaneció Manuel Merino como presidente antes de renunciar durante las protestas de noviembre de 2020?",
+          "choices": ["A) 5 días", "B) 2 días", "C) 5 años", "D) 12 días"],
+          "answer": "A) 5 días"
+        },
+        {
+          "value": 10,
+          "prompt": "¿Cuál es la edad mínima para ser elegido senador?",
+          "choices": ["A) 45 años", "B) 18 años", "C) 50 años", "D) 23 años"],
+          "answer": "A) 45 años"
+        }
+      ]
+    },
+    {
+      "id": "cultura_general",
+      "name": "Cultura General",
+      "screen_name": "CULTURA GENERAL",
+      "color": "#0AAE16",
+      "questions": [
+        {"value": 50, "prompt": "Ordena de mayor a menor los continentes según el número de países que tienen.", "choices": [], "answer": "1. África\n2. Europa\n3. Asia\n4. América\n5. Oceanía"},
+        {"value": 40, "prompt": "¿Quién fue el primer presidente electo del Perú?", "choices": [], "answer": "José de la Riva Agüero"},
+        {"value": 30, "prompt": "¿Cuántos departamentos hay en la costa del Perú?", "choices": [], "answer": "10"},
+        {"value": 20, "prompt": "¿Quién fue el primer inca del Perú?", "choices": [], "answer": "Manco Cápac"},
+        {"value": 10, "prompt": "Menciona los países fronterizos del Perú.", "choices": [], "answer": "Ecuador, Colombia, Chile, Brasil y Bolivia"}
+      ]
+    },
+    {
+      "id": "peli_emoji",
+      "name": "PELI EMOJI",
+      "screen_name": "PELI EMOJI",
+      "color": "#D88A00",
+      "questions": [
+        {"value": 50, "prompt": "Adivina la película con los emojis.", "visual_clue": "👦  🙌  ✂️", "choices": [], "answer": "El joven manos de tijera"},
+        {"value": 40, "prompt": "Adivina la película con los emojis.", "visual_clue": "🐸  💋  🐊  🎷  🎶  ✨", "choices": [], "answer": "La princesa y el sapo"},
+        {"value": 30, "prompt": "Adivina la película con los emojis.", "visual_clue": "👽  🛸  ☝️  👦  🚲", "choices": [], "answer": "E.T."},
+        {"value": 20, "prompt": "Adivina la película con los emojis.", "visual_clue": "👴  🧔  👦  👶  💀", "choices": [], "answer": "El curioso caso de Benjamin Button"},
+        {"value": 10, "prompt": "Adivina la película con los emojis.", "visual_clue": "👸  👸  ❄️  ⛄  💍", "choices": [], "answer": "Frozen"}
+      ]
+    }
+  ]
+}
