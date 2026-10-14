@@ -39,6 +39,10 @@
   let historyGameId = '';
   let toast = '';
   let automaticFinishInFlight = false;
+  const ZOOM_MIN = 0.45;
+  const ZOOM_MAX = 1.30;
+  const ZOOM_STEP = 0.05;
+  let uiZoom = 1;
 
   const clone = value => JSON.parse(JSON.stringify(value));
   const uid = () => `local-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
@@ -89,6 +93,12 @@
   const currentCategory = () => (draft?.categories || []).find(category => category.id === selectedCategoryId) || draft?.categories?.[0] || null;
   const currentQuestion = () => (currentCategory()?.questions || []).find(question => question.id === selectedQuestionId) || currentCategory()?.questions?.[0] || null;
   const gameFromSession = () => session?.game_snapshot || state.games.find(game => game.id === session?.game_id) || null;
+
+  const zoomControls = () => `<div class="zoom-controls ${['board', 'question', 'winner'].includes(page) ? 'zoom-controls-play' : ''}" aria-label="Zoom de la interfaz">
+    <button type="button" data-action="zoom-out" title="Reducir zoom" aria-label="Reducir zoom">−</button>
+    <span>${Math.round(uiZoom * 100)}%</span>
+    <button type="button" data-action="zoom-in" title="Aumentar zoom" aria-label="Aumentar zoom">+</button>
+  </div>`;
 
   function playSound(name, game = gameFromSession()) {
     if (!game || game.sound_enabled === false || game.sound_enabled === 'false') return;
@@ -417,7 +427,7 @@
     else if (page === 'winner') contents = winnerScreen();
     else if (page === 'history') contents = history();
     else contents = library();
-    root.innerHTML = contents + modalMarkup() + toastMarkup();
+    root.innerHTML = contents + zoomControls() + modalMarkup() + toastMarkup();
     wireRenderedControls();
     refreshQuestionTimer();
     if (page === 'board') window.setTimeout(finishCompletedBoard, 0);
@@ -539,6 +549,13 @@
   }
 
   async function handle(action, element) {
+    if (action === 'zoom-in' || action === 'zoom-out') {
+      const direction = action === 'zoom-in' ? 1 : -1;
+      uiZoom = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, Math.round((uiZoom + direction * ZOOM_STEP) * 100) / 100));
+      await api('setZoom', uiZoom);
+      render();
+      return;
+    }
     if (action === 'library') { page = 'library'; menuGameId = ''; menuPosition = null; backToGame = false; historyGameId = ''; render(); return; }
     if (action === 'history') { page = 'history'; menuGameId = ''; menuPosition = null; backToGame = false; historyGameId = ''; render(); return; }
     if (action === 'history-game') { page = 'history'; backToGame = true; historyGameId = session?.game_id || ''; render(); return; }
@@ -716,6 +733,19 @@
     document.head.insertAdjacentHTML('beforeend', `<style>
       /* Celebración de cierre automático al agotar el tablero. */
       .winner-screen:after{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;background:radial-gradient(circle at 12% 16%,#ffcf6a66 0 3px,transparent 4px),radial-gradient(circle at 83% 19%,#8cf4d866 0 4px,transparent 5px),radial-gradient(circle at 76% 76%,#8799ff66 0 3px,transparent 4px),radial-gradient(circle at 22% 74%,#ff75ad66 0 3px,transparent 4px);background-size:160px 145px,200px 175px,185px 165px,225px 190px;animation:confettiDrift 7s linear infinite}.winner-card{animation:winnerEnter .68s cubic-bezier(.19,1,.22,1) both}.winner-card:before{animation:winnerGlow 2.8s ease-in-out infinite}.winner-art,.winner-photo{animation:winnerFloat 2.7s ease-in-out infinite}.winner-copy h1{animation:winnerTitle .7s .18s both}.winner-points{animation:winnerTitle .7s .3s both}.winner-team{animation:winnerRow .5s both}.winner-team:nth-child(1){animation-delay:.38s}.winner-team:nth-child(2){animation-delay:.48s}.winner-team:nth-child(3){animation-delay:.58s}.winner-team:nth-child(4){animation-delay:.68s}.winner-team:nth-child(5){animation-delay:.78s}.winner-team:nth-child(6){animation-delay:.88s}@keyframes winnerEnter{from{opacity:0;transform:translateY(32px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}@keyframes winnerGlow{0%,100%{opacity:.16;transform:scale(.94)}50%{opacity:.36;transform:scale(1.08)}}@keyframes winnerFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-10px) rotate(2deg)}}@keyframes winnerTitle{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}@keyframes winnerRow{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:translateX(0)}}@keyframes confettiDrift{from{background-position:0 0,0 0,0 0,0 0}to{background-position:70px 150px,-90px 180px,110px 170px,-65px 195px}}@media(prefers-reduced-motion:reduce){.winner-screen:after,.winner-card,.winner-card:before,.winner-art,.winner-photo,.winner-copy h1,.winner-points,.winner-team{animation:none}}
+    </style>`);
+    document.head.insertAdjacentHTML('beforeend', `<style>
+      /* Cada pantalla se puede recorrer si la altura disponible no alcanza. */
+      .side{min-height:0;overflow-y:auto;overflow-x:hidden}
+      .workspace{min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;padding-bottom:78px}
+      .screen.play{overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain}
+      .screen.play .play-content{padding-bottom:94px}
+      .zoom-controls{position:fixed;left:260px;bottom:13px;z-index:4;display:inline-flex;align-items:center;gap:2px;padding:3px;border:1px solid #405572;border-radius:9px;background:#101d30ef;box-shadow:0 8px 20px #0007;font-variant-numeric:tabular-nums}
+      .zoom-controls-play{left:14px}
+      .zoom-controls button{width:23px;height:23px;padding:0;border:0;border-radius:6px;background:transparent;color:#dce8fb;font-size:18px;line-height:1;cursor:pointer}
+      .zoom-controls button:hover{background:#2b4061;color:#fff}
+      .zoom-controls span{min-width:34px;text-align:center;color:#aebfda;font-size:10px;font-weight:800;user-select:none}
+      @media(max-width:1250px){.workspace{padding-bottom:76px}}
     </style>`);
   }
 

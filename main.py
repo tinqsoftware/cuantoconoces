@@ -9,7 +9,7 @@ import sys
 import textwrap
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 from store import GameStore, TEAM_COLORS, new_id
 
@@ -1616,6 +1616,7 @@ def run_desktop_app() -> None:
         def __init__(self, game_store: GameStore) -> None:
             super().__init__()
             self.store = game_store
+            self.view: Optional[QWebEngineView] = None
 
         @staticmethod
         def _payload(value: Any) -> str:
@@ -1632,6 +1633,14 @@ def run_desktop_app() -> None:
         @pyqtSlot(result=str)
         def getState(self) -> str:
             return self._payload({"games": self.store.list_games(), "sessions": self.store.list_sessions()})
+
+        @pyqtSlot(float, result=str)
+        def setZoom(self, zoom: float) -> str:
+            """Zoom nativo de Qt WebEngine, igual en Windows y macOS."""
+            factor = max(0.45, min(1.30, float(zoom)))
+            if self.view is not None:
+                self.view.setZoomFactor(factor)
+            return self._payload({"zoom": factor})
 
         @pyqtSlot(str, result=str)
         def saveGame(self, raw_game: str) -> str:
@@ -1706,13 +1715,18 @@ def run_desktop_app() -> None:
     settings.setAttribute(settings.LocalContentCanAccessFileUrls, True)
     window.setCentralWidget(view)
     bridge = DesktopBridge(GameStore())
+    bridge.view = view
     channel = QWebChannel(view.page())
     channel.registerObject("quizBridge", bridge)
     view.page().setWebChannel(channel)
     # QWebChannel y el puente deben vivir tanto como la ventana.
     window._desktop_bridge = bridge  # type: ignore[attr-defined]
     window._web_channel = channel  # type: ignore[attr-defined]
-    view.load(QUrl.fromLocalFile(str(WEB_UI_PATH)))
+    # Cache-buster para desarrollo y para actualizaciones locales: WebEngine
+    # no reutiliza una versión anterior de la interfaz tras reiniciar la app.
+    interface_url = QUrl.fromLocalFile(str(WEB_UI_PATH))
+    interface_url.setQuery(f"build={WEB_UI_PATH.stat().st_mtime_ns}")
+    view.load(interface_url)
     window.show()
     sys.exit(qt_app.exec_())
 
