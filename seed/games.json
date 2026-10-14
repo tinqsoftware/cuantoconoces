@@ -253,12 +253,12 @@
             {
               "value": 40,
               "choices": [],
-              "answer": "José de la Riva Agüero",
+              "answer": "El Tratado de Ancón",
               "id": "6494fb47d28d",
-              "question": "¿Quién fue el primer presidente electo del Perú?",
+              "question": "¿Qué tratado puso fin a la Guerra del Pacífico entre Perú y Chile?",
               "answer_type": "manual",
               "accepted_answers": [
-                "José de la Riva Agüero"
+                "El Tratado de Ancón"
               ]
             },
             {
@@ -365,7 +365,7 @@
         }
       ],
       "created_at": "2026-10-10T12:32:25-05:00",
-      "updated_at": "2026-10-13T19:26:45-05:00",
+      "updated_at": "2026-10-13T19:54:13-05:00",
       "winner_image": "images/963c139e9740.png",
       "sound_enabled": true,
       "sound_volume": "55"

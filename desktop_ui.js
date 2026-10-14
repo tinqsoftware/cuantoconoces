@@ -504,6 +504,7 @@
       });
       question.answer_type = answerType(question);
       if (question.answer_type === 'text') question.answer = question.accepted_answers?.[0] || question.answer || '';
+      if (question.answer_type === 'manual') question.accepted_answers = question.answer ? [question.answer] : [];
       if (question.answer_type === 'order') question.answer = (question.order_items || []).join(' → ');
     }
   }
