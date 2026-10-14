@@ -51,6 +51,10 @@ El instalador debe compilarse en Windows (PyInstaller empaqueta los binarios y
 el motor WebEngine específicos de ese sistema); no es posible generar un `.exe`
 Windows funcional directamente desde macOS.
 
+El contenido de `seed/` es la edición inicial que verá quien instale la app:
+incluye el juego configurado, sus equipos, preguntas y recursos visuales. El
+historial de partidas no se distribuye ni se comparte.
+
 ### Generarlo gratis con GitHub Actions
 
 También se incluye el flujo

@@ -28,6 +28,8 @@ GAMES_PATH = STORAGE_DIR / "games.json"
 HISTORY_PATH = STORAGE_DIR / "history.json"
 LEGACY_DATA_PATH = RESOURCE_DIR / "game_data.json"
 LEGACY_CONFIG_PATH = RESOURCE_DIR / "config.example.json"
+SEED_DIR = RESOURCE_DIR / "seed"
+SEED_GAMES_PATH = SEED_DIR / "games.json"
 
 TEAM_COLORS = ["#22C7A9", "#F26B9A", "#6AA7FF", "#F7C84B", "#B891FF", "#FF8C69", "#60D394", "#FFAFCC"]
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp"}
@@ -142,7 +144,55 @@ class GameStore:
         games = self._read_games()
         if games:
             return
+        seeded = read_json(SEED_GAMES_PATH, {"games": []})
+        seed_games = seeded.get("games", []) if isinstance(seeded, dict) else []
+        if isinstance(seed_games, list) and seed_games:
+            self._write_games(self._install_seed_games(seed_games))
+            return
         self._write_games([self._legacy_game()])
+
+    def _install_seed_games(self, seed_games: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        """Instala los juegos de demostración incluidos con el instalador.
+
+        Las rutas del repositorio son relativas (``images/...``); se copian a
+        los datos locales de la persona usuaria y se reemplazan por rutas
+        absolutas válidas en su computadora.
+        """
+        games = copy.deepcopy(seed_games)
+        destination_dir = STORAGE_DIR / "images"
+        destination_dir.mkdir(parents=True, exist_ok=True)
+
+        for game in games:
+            if not isinstance(game, dict):
+                continue
+            image_holders: list[tuple[dict[str, Any], str]] = [(game, "background_image"), (game, "winner_image")]
+            for category in game.get("categories", []):
+                if not isinstance(category, dict):
+                    continue
+                for question in category.get("questions", []):
+                    if isinstance(question, dict):
+                        image_holders.append((question, "image_path"))
+            for holder, field in image_holders:
+                relative_path = holder.get(field, "")
+                if not isinstance(relative_path, str) or not relative_path:
+                    continue
+                candidate = (SEED_DIR / relative_path).resolve()
+                try:
+                    candidate.relative_to(SEED_DIR.resolve())
+                except ValueError:
+                    holder[field] = ""
+                    continue
+                if not candidate.is_file():
+                    holder[field] = ""
+                    continue
+                destination = destination_dir / candidate.name
+                try:
+                    if not destination.exists():
+                        shutil.copy2(candidate, destination)
+                    holder[field] = str(destination)
+                except OSError:
+                    holder[field] = ""
+        return games
 
     def _legacy_game(self) -> dict[str, Any]:
         legacy_data = read_json(LEGACY_DATA_PATH, {"categories": []})

@@ -31,7 +31,7 @@ jobs:
       - name: Crear aplicación e instalador
         shell: pwsh
         run: |
-          python -m PyInstaller --noconfirm --clean --windowed --name "Quiz Studio" --add-data "web_ui.html;." --add-data "desktop_ui.js;." --add-data "game_data.json;." --add-data "config.example.json;." --collect-all PyQt5.QtWebEngineWidgets main.py
+          python -m PyInstaller --noconfirm --clean --windowed --name "Quiz Studio" --add-data "web_ui.html;." --add-data "desktop_ui.js;." --add-data "game_data.json;." --add-data "config.example.json;." --add-data "seed;seed" --collect-all PyQt5.QtWebEngineWidgets main.py
           & "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" "packaging\windows\QuizStudio.iss"
 
       - name: Subir instalador listo para descargar

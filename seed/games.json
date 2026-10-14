@@ -1,0 +1,374 @@
+{
+  "games": [
+    {
+      "id": "f00c534ec1a4",
+      "name": "Trivia inicial",
+      "title": "¿Cuánto conoces?",
+      "background_color": "#111827",
+      "background_image": "images/4db63eb72a3e.png",
+      "accent_color": "#45dcc2",
+      "text_color": "#f8fafc",
+      "card_color": "#1f2937",
+      "font_family": "Arial",
+      "teams": [
+        {
+          "name": "Equipo 1",
+          "color": "#35c9ad"
+        },
+        {
+          "name": "Equipo 2",
+          "color": "#e36b9b"
+        }
+      ],
+      "categories": [
+        {
+          "id": "random",
+          "name": "RANDOM",
+          "color": "#238a76",
+          "questions": [
+            {
+              "value": 50,
+              "choices": [
+                "1",
+                "2",
+                "3",
+                "4"
+              ],
+              "answer": "3",
+              "id": "ff007e2b6ccd",
+              "question": "¿Cuántos presidentes hubo en el Perú durante 2020?",
+              "answer_type": "choice"
+            },
+            {
+              "value": 40,
+              "choices": [
+                "Colombia, Argentina, Perú y Chile",
+                "Perú, Chile, Argentina y Colombia",
+                "Chile, Perú, Colombia y México",
+                "México, Colombia, Bolivia y Perú"
+              ],
+              "answer": "Chile, Perú, Colombia y México",
+              "id": "0f939069f295",
+              "question": "¿Qué países conforman la Alianza del Pacífico?",
+              "answer_type": "choice"
+            },
+            {
+              "value": 30,
+              "choices": [
+                "Robert Francisco Prevost",
+                "Jorge Bergoglio",
+                "Robert Francis Prevost",
+                "Roberto Prevost"
+              ],
+              "answer": "Robert Francis Prevost",
+              "id": "e1be7122ca3c",
+              "question": "¿Cuál es el nombre secular del papa León XIV?",
+              "answer_type": "choice"
+            },
+            {
+              "value": 20,
+              "choices": [
+                "Rodrigo Fernandini",
+                "Erick Paucar",
+                "Virgilio Martínez",
+                "Gastón Acurio"
+              ],
+              "answer": "Virgilio Martínez",
+              "id": "e5e76572c908",
+              "question": "¿Qué chef peruano lidera el restaurante Central?",
+              "answer_type": "choice"
+            },
+            {
+              "value": 10,
+              "choices": [
+                "Instituto Peruano de Energía Nuclear",
+                "Instituto Peruano de Estadística Nacional",
+                "Instituto Peruano de Economía Nacional",
+                "Instituto Peruano de Energía Nacional"
+              ],
+              "answer": "Instituto Peruano de Energía Nuclear",
+              "id": "a34bce1c7bce",
+              "question": "¿Qué significan las siglas IPEN?",
+              "answer_type": "choice"
+            }
+          ]
+        },
+        {
+          "id": "adivinanzas",
+          "name": "Adivinanzas",
+          "color": "#7a31ab",
+          "questions": [
+            {
+              "value": 50,
+              "choices": [],
+              "answer": "Papel",
+              "id": "ea45852890cc",
+              "question": "Cae lentamente y no se mata, cae en el río y se desbarata.",
+              "answer_type": "manual",
+              "accepted_answers": [
+                "Papel"
+              ]
+            },
+            {
+              "value": 40,
+              "choices": [],
+              "answer": "Tren",
+              "id": "d6df7bf36085",
+              "question": "Rodando por un camino, van unos largos cajones que producen mucho ruido.",
+              "answer_type": "manual",
+              "accepted_answers": [
+                "Tren"
+              ]
+            },
+            {
+              "value": 30,
+              "choices": [],
+              "answer": "Sartén",
+              "id": "edb31d8d7555",
+              "question": "Cuando calor tengo, frío; y no frío sin calor.",
+              "answer_type": "manual",
+              "accepted_answers": [
+                "Sartén"
+              ]
+            },
+            {
+              "value": 20,
+              "choices": [],
+              "answer": "Reloj",
+              "id": "d31b8c374756",
+              "question": "Tengo agujas y no sé coser, tengo números y no sé leer.",
+              "answer_type": "manual",
+              "accepted_answers": [
+                "Reloj"
+              ]
+            },
+            {
+              "value": 10,
+              "choices": [],
+              "answer": "Canica",
+              "id": "179eac6f4f49",
+              "question": "Soy pequeña y de cristal, méteme al hoyo y no perderás.",
+              "answer_type": "manual",
+              "accepted_answers": [
+                "Canica"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "formacion_humana",
+          "name": "Formación Humana",
+          "color": "#0876c9",
+          "questions": [
+            {
+              "value": 50,
+              "choices": [
+                "190 parlamentarios: 130 senadores y 60 diputados",
+                "130 congresistas",
+                "190 diputados",
+                "190 parlamentarios: 60 senadores y 130 diputados"
+              ],
+              "answer": "190 parlamentarios: 60 senadores y 130 diputados",
+              "id": "dc099148001a",
+              "question": "¿Cómo está compuesto el Congreso de la República tras la restitución del sistema bicameral?",
+              "answer_type": "choice"
+            },
+            {
+              "value": 40,
+              "choices": [
+                "Aníbal Torres Vásquez",
+                "Elmer Cuba",
+                "César Astudillo",
+                "Rafael Rey Rey"
+              ],
+              "answer": "Elmer Cuba",
+              "id": "471b085f09a7",
+              "question": "¿Quién es el actual ministro de Economía?",
+              "answer_type": "choice"
+            },
+            {
+              "value": 30,
+              "choices": [
+                "José Bernardo de Tagle",
+                "José de la Riva Agüero",
+                "José de la Mar",
+                "Luis José de Orbegoso"
+              ],
+              "answer": "José de la Riva Agüero",
+              "id": "984928247c82",
+              "question": "¿Quién fue el primer presidente del Perú?",
+              "answer_type": "choice"
+            },
+            {
+              "value": 20,
+              "choices": [
+                "5 días",
+                "2 días",
+                "5 años",
+                "12 días"
+              ],
+              "answer": "5 días",
+              "id": "3a811cc31688",
+              "question": "¿Cuántos días permaneció Manuel Merino como presidente antes de renunciar durante las protestas de noviembre de 2020?",
+              "answer_type": "choice"
+            },
+            {
+              "value": 10,
+              "choices": [
+                "45 años",
+                "18 años",
+                "50 años",
+                "23 años"
+              ],
+              "answer": "45 años",
+              "id": "7c156b6ba210",
+              "question": "¿Cuál es la edad mínima para ser elegido senador?",
+              "answer_type": "choice"
+            }
+          ]
+        },
+        {
+          "id": "cultura_general",
+          "name": "Cultura General",
+          "color": "#0aae16",
+          "questions": [
+            {
+              "value": 50,
+              "choices": [],
+              "answer": "África → Europa → Asia → América → Oceanía",
+              "id": "d64c18bfe1ab",
+              "question": "Ordena de mayor a menor los continentes según el número de países que tienen.",
+              "answer_type": "order",
+              "accepted_answers": [
+                "1. África2. Europa3. Asia4. América5. Oceanía"
+              ],
+              "order_items": [
+                "África",
+                "Europa",
+                "Asia",
+                "América",
+                "Oceanía"
+              ]
+            },
+            {
+              "value": 40,
+              "choices": [],
+              "answer": "José de la Riva Agüero",
+              "id": "6494fb47d28d",
+              "question": "¿Quién fue el primer presidente electo del Perú?",
+              "answer_type": "manual",
+              "accepted_answers": [
+                "José de la Riva Agüero"
+              ]
+            },
+            {
+              "value": 30,
+              "choices": [],
+              "answer": "10",
+              "id": "8d7b031e57f8",
+              "question": "¿Cuántos departamentos hay en la costa del Perú?",
+              "answer_type": "manual",
+              "accepted_answers": [
+                "10"
+              ]
+            },
+            {
+              "value": 20,
+              "choices": [],
+              "answer": "Manco Cápac",
+              "id": "2700a7be3261",
+              "question": "¿Quién fue el primer inca del Perú?",
+              "answer_type": "manual",
+              "accepted_answers": [
+                "Manco Cápac"
+              ]
+            },
+            {
+              "value": 10,
+              "choices": [],
+              "answer": "Ecuador, Colombia, Chile, Brasil y Bolivia",
+              "id": "38f5c1e757f5",
+              "question": "Menciona los países fronterizos del Perú.",
+              "answer_type": "manual",
+              "accepted_answers": [
+                "Ecuador, Colombia, Chile, Brasil y Bolivia"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "peli_emoji",
+          "name": "PELI EMOJI",
+          "color": "#d88a00",
+          "questions": [
+            {
+              "value": 50,
+              "visual_clue": "👦  🙌  ✂️",
+              "choices": [],
+              "answer": "El joven manos de tijera",
+              "id": "a28f330e50a0",
+              "question": "Adivina la película 🧒🏻🙌🏻✂️",
+              "answer_type": "manual",
+              "accepted_answers": [
+                "El joven manos de tijera"
+              ]
+            },
+            {
+              "value": 40,
+              "visual_clue": "🐸  💋  🐊  🎷  🎶  ✨",
+              "choices": [],
+              "answer": "La princesa y el sapo",
+              "id": "2597b00047d4",
+              "question": "Adivina la película 🐸💋🐊🎷🎶✨💫",
+              "answer_type": "manual",
+              "accepted_answers": [
+                "La princesa y el sapo"
+              ]
+            },
+            {
+              "value": 30,
+              "visual_clue": "👽  🛸  ☝️  👦  🚲",
+              "choices": [],
+              "answer": "E.T.",
+              "id": "714dc5112242",
+              "question": "Adivina la película 👽🛸☝🏻👦🏻🚲",
+              "answer_type": "manual",
+              "accepted_answers": [
+                "E.T."
+              ]
+            },
+            {
+              "value": 20,
+              "visual_clue": "👴  🧔  👦  👶  💀",
+              "choices": [],
+              "answer": "El curioso caso de Benjamin Button",
+              "id": "9f162f7a2ea8",
+              "question": "Adivina la película 👴🏻👨🏻🧒🏻👶🏼💀",
+              "answer_type": "manual",
+              "accepted_answers": [
+                "El curioso caso de Benjamin Button"
+              ]
+            },
+            {
+              "value": 10,
+              "visual_clue": "👸  👸  ❄️  ⛄  💍",
+              "choices": [],
+              "answer": "Frozen",
+              "id": "9a6f96c62231",
+              "question": "Adivina la película 👸🏻👸🏻❄️⛄️❌💍",
+              "answer_type": "manual",
+              "accepted_answers": [
+                "Frozen"
+              ]
+            }
+          ]
+        }
+      ],
+      "created_at": "2026-10-10T12:32:25-05:00",
+      "updated_at": "2026-10-13T19:26:45-05:00",
+      "winner_image": "images/963c139e9740.png",
+      "sound_enabled": true,
+      "sound_volume": "55"
+    }
+  ]
+}

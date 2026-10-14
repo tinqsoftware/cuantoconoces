@@ -16,6 +16,7 @@ py -3 -m PyInstaller --noconfirm --clean --windowed --name "Quiz Studio" ^
   --add-data "desktop_ui.js;." ^
   --add-data "game_data.json;." ^
   --add-data "config.example.json;." ^
+  --add-data "seed;seed" ^
   --collect-all PyQt5.QtWebEngineWidgets ^
   main.py
 
