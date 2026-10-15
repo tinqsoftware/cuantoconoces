@@ -8,15 +8,17 @@
       "questions": [
         {
           "value": 50,
-          "prompt": "¿Cuántos presidentes hubo en el Perú durante 2020?",
-          "choices": ["A) 1", "B) 2", "C) 3", "D) 4"],
-          "answer": "C) 3"
+          "prompt": "¿Qué pesa más: un kilo de hierro o un kilo de plumas?",
+          "choices": [],
+          "answer": "Pesan lo mismo.",
+          "answer_type": "manual"
         },
         {
           "value": 40,
-          "prompt": "¿Qué países conforman la Alianza del Pacífico?",
-          "choices": ["A) Colombia, Argentina, Perú y Chile", "B) Perú, Chile, Argentina y Colombia", "C) Chile, Perú, Colombia y México", "D) México, Colombia, Bolivia y Perú"],
-          "answer": "C) Chile, Perú, Colombia y México"
+          "prompt": "¿Qué color resulta de mezclar azul y amarillo?",
+          "choices": [],
+          "answer": "Verde.",
+          "answer_type": "manual"
         },
         {
           "value": 30,
@@ -53,7 +55,7 @@
     },
     {
       "id": "formacion_humana",
-      "name": "Formación Humana",
+      "name": "Politólogos",
       "screen_name": "POLITÓLOGOS",
       "color": "#0876C9",
       "questions": [
@@ -96,7 +98,7 @@
       "color": "#0AAE16",
       "questions": [
         {"value": 50, "prompt": "Ordena de mayor a menor los continentes según el número de países que tienen.", "choices": [], "answer": "1. África\n2. Europa\n3. Asia\n4. América\n5. Oceanía"},
-        {"value": 40, "prompt": "¿Quién fue el primer presidente electo del Perú?", "choices": [], "answer": "José de la Riva Agüero"},
+        {"value": 40, "prompt": "¿Cuál es el planeta más grande del sistema solar?", "choices": [], "answer": "Júpiter.", "answer_type": "manual"},
         {"value": 30, "prompt": "¿Cuántos departamentos hay en la costa del Perú?", "choices": [], "answer": "10"},
         {"value": 20, "prompt": "¿Quién fue el primer inca del Perú?", "choices": [], "answer": "Manco Cápac"},
         {"value": 10, "prompt": "Menciona los países fronterizos del Perú.", "choices": [], "answer": "Ecuador, Colombia, Chile, Brasil y Bolivia"}

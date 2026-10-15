@@ -28,29 +28,25 @@
           "questions": [
             {
               "value": 50,
-              "choices": [
-                "1",
-                "2",
-                "3",
-                "4"
-              ],
-              "answer": "3",
+              "choices": [],
+              "answer": "Pesan lo mismo.",
               "id": "ff007e2b6ccd",
-              "question": "¿Cuántos presidentes hubo en el Perú durante 2020?",
-              "answer_type": "choice"
+              "question": "¿Qué pesa más: un kilo de hierro o un kilo de plumas?",
+              "answer_type": "manual",
+              "accepted_answers": [
+                "Pesan lo mismo."
+              ]
             },
             {
               "value": 40,
-              "choices": [
-                "Colombia, Argentina, Perú y Chile",
-                "Perú, Chile, Argentina y Colombia",
-                "Chile, Perú, Colombia y México",
-                "México, Colombia, Bolivia y Perú"
-              ],
-              "answer": "Chile, Perú, Colombia y México",
+              "choices": [],
+              "answer": "Verde.",
               "id": "0f939069f295",
-              "question": "¿Qué países conforman la Alianza del Pacífico?",
-              "answer_type": "choice"
+              "question": "¿Qué color resulta de mezclar azul y amarillo?",
+              "answer_type": "manual",
+              "accepted_answers": [
+                "Verde."
+              ]
             },
             {
               "value": 30,
@@ -157,7 +153,7 @@
         },
         {
           "id": "formacion_humana",
-          "name": "Formación Humana",
+          "name": "Politólogos",
           "color": "#0876c9",
           "questions": [
             {
@@ -253,12 +249,12 @@
             {
               "value": 40,
               "choices": [],
-              "answer": "El Tratado de Ancón",
+              "answer": "Júpiter.",
               "id": "6494fb47d28d",
-              "question": "¿Qué tratado puso fin a la Guerra del Pacífico entre Perú y Chile?",
+              "question": "¿Cuál es el planeta más grande del sistema solar?",
               "answer_type": "manual",
               "accepted_answers": [
-                "El Tratado de Ancón"
+                "Júpiter."
               ]
             },
             {
@@ -368,7 +364,8 @@
       "updated_at": "2026-10-13T19:54:13-05:00",
       "winner_image": "images/963c139e9740.png",
       "sound_enabled": true,
-      "sound_volume": "55"
+      "sound_volume": "55",
+      "allow_other_team_answer": false
     }
   ]
 }

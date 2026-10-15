@@ -236,6 +236,7 @@ class GameStore:
             "font_family": "Arial",
             "sound_enabled": True,
             "sound_volume": 55,
+            "allow_other_team_answer": False,
             "teams": default_teams,
             "categories": categories,
             "created_at": now,
@@ -257,6 +258,7 @@ class GameStore:
             "font_family": "Arial",
             "sound_enabled": True,
             "sound_volume": 55,
+            "allow_other_team_answer": False,
             "teams": [
                 {"name": "Equipo 1", "color": TEAM_COLORS[0]},
                 {"name": "Equipo 2", "color": TEAM_COLORS[1]},
