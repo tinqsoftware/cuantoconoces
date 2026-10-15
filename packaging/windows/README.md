@@ -7,12 +7,16 @@ En una computadora Windows de 64 bits, instala una sola vez:
 
 Luego haz doble clic en `build_installer.bat`.
 
-El resultado será `dist\installer\QuizStudio-Setup.exe`. Ese es el único
-archivo que se comparte con la persona usuaria final: lo abre con doble clic,
-acepta el asistente y podrá abrir Quiz Studio desde Inicio o desde el acceso
-directo. No tendrá que instalar Python, dependencias ni usar Internet para
-jugar.
+El proceso genera tanto el instalador como el archivo portable descritos abajo.
+En ambos casos, la persona usuaria final no necesita Python, dependencias ni
+Internet para jugar.
+# Versiones de Windows
 
-Los juegos e historiales del usuario se almacenan en
-`%LOCALAPPDATA%\Quiz Studio\storage`, fuera de la carpeta del programa. Por
-ello no se pierden al actualizar o desinstalar la aplicación.
+La compilación genera dos opciones:
+
+- `QuizStudio-Setup.exe`: instalador tradicional. Los datos quedan en la computadora donde se instala.
+- `QuizStudio-Portable.exe`: un único archivo portable. Ábrelo, crea o modifica juegos, ciérralo y comparte **ese mismo archivo**. Al cerrarse, Quiz Studio guarda juegos, historial e imágenes dentro del `.exe`.
+
+Para el formato portable, conserva el archivo en una carpeta escribible, como Descargas, Escritorio o Documentos. Si se abre directamente desde un adjunto de correo o una ubicación temporal, Quiz Studio lo copiará automáticamente a `Documentos\Quiz Studio\Juegos portátiles` para poder guardar los cambios.
+
+Windows puede mostrar una advertencia de SmartScreen al recibir ejecutables sin firma digital; es normal en una distribución privada. Para enviarlo, USB, Google Drive o un `.zip` suelen ser más fiables que correo, que normalmente bloquea `.exe`.

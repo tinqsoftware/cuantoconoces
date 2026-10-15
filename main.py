@@ -3,10 +3,17 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 import os
+import shutil
+import struct
+import subprocess
 import sys
 import textwrap
+import time
+import uuid
+import zipfile
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Callable, Optional
@@ -61,6 +68,129 @@ def bundled_path(filename: str) -> Path:
 
 
 WEB_UI_PATH = bundled_path("web_ui.html")
+
+
+# Formato del archivo portable para Windows.
+#
+# El .exe final empieza como un lanzador nativo pequeño y termina con un ZIP
+# (runtime + datos) y este pie. El lanzador sólo lee el ZIP; el proceso Python
+# lo vuelve a escribir al cerrar, por lo que el mismo archivo puede viajar con
+# sus juegos, imágenes e historial, como una presentación de PowerPoint.
+PORTABLE_MAGIC = b"QUIZSTUDIO_PORTABLE_V1"
+PORTABLE_MAGIC_SIZE = 32
+PORTABLE_FOOTER_SIZE = PORTABLE_MAGIC_SIZE + 8 + 32
+
+
+def _portable_context() -> Optional[tuple[Path, Path]]:
+    """Devuelve (carpeta temporal del paquete, .exe portable) si aplica."""
+    raw_root = os.environ.get("QUIZ_STUDIO_PORTABLE_BUNDLE", "").strip()
+    raw_container = os.environ.get("QUIZ_STUDIO_PORTABLE_CONTAINER", "").strip()
+    if not raw_root or not raw_container or not sys.platform.startswith("win"):
+        return None
+    root, container = Path(raw_root), Path(raw_container)
+    if not root.is_dir() or not container.is_file() or not (root / "runtime").is_dir():
+        return None
+    return root, container
+
+
+def _portable_payload_start(container: Path) -> int:
+    """Lee y valida el pie del contenedor portable sin cargarlo en memoria."""
+    size = container.stat().st_size
+    if size < PORTABLE_FOOTER_SIZE:
+        raise OSError("El archivo portable no tiene un paquete válido.")
+    with container.open("rb") as source:
+        source.seek(size - PORTABLE_FOOTER_SIZE)
+        footer = source.read(PORTABLE_FOOTER_SIZE)
+    magic = footer[:PORTABLE_MAGIC_SIZE]
+    expected_magic = PORTABLE_MAGIC.ljust(PORTABLE_MAGIC_SIZE, b"\0")
+    if magic != expected_magic:
+        raise OSError("No se reconoce el formato del archivo portable.")
+    payload_size = struct.unpack("<Q", footer[PORTABLE_MAGIC_SIZE : PORTABLE_MAGIC_SIZE + 8])[0]
+    start = size - PORTABLE_FOOTER_SIZE - payload_size
+    if payload_size <= 0 or start <= 0:
+        raise OSError("El paquete portable está incompleto.")
+    return start
+
+
+def _sha256(path: Path) -> bytes:
+    digest = hashlib.sha256()
+    with path.open("rb") as source:
+        for chunk in iter(lambda: source.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.digest()
+
+
+def _create_portable_payload(root: Path, destination: Path) -> None:
+    """Empaqueta sólo runtime y data, excluyendo cualquier temporal externo."""
+    with zipfile.ZipFile(destination, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=6) as archive:
+        for directory_name in ("runtime", "data"):
+            directory = root / directory_name
+            if not directory.is_dir():
+                continue
+            for file_path in directory.rglob("*"):
+                if file_path.is_file():
+                    archive.write(file_path, file_path.relative_to(root).as_posix())
+
+
+def _save_portable_copy(root: Path, container: Path) -> None:
+    """Actualiza atómicamente el .exe que abrió la persona.
+
+    El lanzador termina antes de abrir la aplicación interior, de modo que el
+    archivo no está bloqueado. Si algo falla, se conserva el archivo previo.
+    """
+    payload_path = container.parent / f".{container.name}.{uuid.uuid4().hex}.zip"
+    replacement_path = container.parent / f".{container.name}.{uuid.uuid4().hex}.tmp"
+    try:
+        _create_portable_payload(root, payload_path)
+        payload_start = _portable_payload_start(container)
+        footer = (
+            PORTABLE_MAGIC.ljust(PORTABLE_MAGIC_SIZE, b"\0")
+            + struct.pack("<Q", payload_path.stat().st_size)
+            + _sha256(payload_path)
+        )
+        with container.open("rb") as source, replacement_path.open("wb") as destination:
+            remaining = payload_start
+            while remaining:
+                chunk = source.read(min(1024 * 1024, remaining))
+                if not chunk:
+                    raise OSError("No se pudo leer el lanzador portable.")
+                destination.write(chunk)
+                remaining -= len(chunk)
+            with payload_path.open("rb") as payload:
+                shutil.copyfileobj(payload, destination, 1024 * 1024)
+            destination.write(footer)
+            destination.flush()
+            os.fsync(destination.fileno())
+        # El lanzador ya pidió terminar, pero Windows puede conservar su handle
+        # durante unas milésimas. Reintentamos antes de informar un error.
+        last_error: Optional[OSError] = None
+        for _attempt in range(12):
+            try:
+                os.replace(replacement_path, container)
+                last_error = None
+                break
+            except OSError as exc:
+                last_error = exc
+                time.sleep(0.18)
+        if last_error is not None:
+            raise last_error
+    finally:
+        for temporary in (payload_path, replacement_path):
+            try:
+                temporary.unlink(missing_ok=True)
+            except OSError:
+                pass
+
+
+def _schedule_portable_cleanup(root: Path) -> None:
+    """El runtime ya cerró: elimina su copia temporal después de unos segundos."""
+    if not sys.platform.startswith("win") or not root.name.startswith("QuizStudioPortable-"):
+        return
+    command = f'ping 127.0.0.1 -n 3 > nul & rmdir /s /q "{root}"'
+    try:
+        subprocess.Popen(["cmd.exe", "/c", command], creationflags=0x08000000)
+    except OSError:
+        pass
 
 
 def format_date(value: str) -> str:
@@ -1591,9 +1721,9 @@ def run_desktop_app() -> None:
         raise RuntimeError(f"No se encontró la interfaz visual: {WEB_UI_PATH}")
 
     try:
-        from PyQt5.QtCore import QObject, QUrl, pyqtSlot
+        from PyQt5.QtCore import QObject, Qt, QUrl, pyqtSlot
         from PyQt5.QtWebChannel import QWebChannel
-        from PyQt5.QtWidgets import QApplication, QFileDialog, QMainWindow
+        from PyQt5.QtWidgets import QApplication, QFileDialog, QMainWindow, QMessageBox, QProgressDialog
         from PyQt5.QtWebEngineWidgets import QWebEngineView
     except ImportError as exc:
         raise RuntimeError(
@@ -1702,7 +1832,53 @@ def run_desktop_app() -> None:
             # como si fueran rutas de imágenes.
             return self._payload(self.store.import_image(path) if path else "")
 
-    window = QMainWindow()
+    portable = _portable_context()
+
+    class QuizWindow(QMainWindow):
+        """Ventana principal con guardado especial para el .exe portable."""
+
+        def __init__(self) -> None:
+            super().__init__()
+            self._portable_saved = False
+
+        def closeEvent(self, event: Any) -> None:  # noqa: N802 - API Qt
+            if portable is None or self._portable_saved:
+                event.accept()
+                return
+            root, container = portable
+            progress = QProgressDialog("Guardando los cambios dentro de este archivo…", None, 0, 0, self)
+            progress.setWindowTitle("Quiz Studio")
+            progress.setWindowModality(Qt.ApplicationModal)
+            progress.setCancelButton(None)
+            progress.setMinimumDuration(0)
+            progress.setAutoClose(False)
+            progress.setAutoReset(False)
+            progress.show()
+            qt_app.processEvents()
+            try:
+                _save_portable_copy(root, container)
+            except OSError as exc:
+                progress.close()
+                QMessageBox.critical(
+                    self,
+                    "No se pudo guardar",
+                    "Quiz Studio no pudo actualizar este archivo portable. "
+                    "Muévelo a una carpeta donde tengas permiso para escribir, como Documentos, "
+                    "y vuelve a cerrarlo.\n\nDetalle: " + str(exc),
+                )
+                event.ignore()
+                return
+            progress.close()
+            self._portable_saved = True
+            _schedule_portable_cleanup(root)
+            if os.environ.get("QUIZ_STUDIO_PORTABLE_SHOW_FILE") == "1":
+                try:
+                    subprocess.Popen(["explorer.exe", "/select," + str(container)])
+                except OSError:
+                    pass
+            event.accept()
+
+    window = QuizWindow()
     window.setWindowTitle("Quiz Studio")
     window.setMinimumSize(1120, 680)
     window.resize(1600, 900)

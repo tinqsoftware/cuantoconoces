@@ -18,7 +18,13 @@ from typing import Any
 # intentar escribir dentro de Program Files y para sobrevivir actualizaciones.
 SOURCE_DIR = Path(__file__).resolve().parent
 RESOURCE_DIR = Path(getattr(sys, "_MEIPASS", SOURCE_DIR))
-if getattr(sys, "frozen", False) and sys.platform.startswith("win"):
+# El ejecutable portable inyecta esta ruta temporal antes de iniciar la app.
+# Así, juegos, historial e imágenes viajan dentro de *ese mismo* .exe al
+# cerrarlo, en vez de mezclarse con los datos de otra instalación de Windows.
+PORTABLE_ROOT = os.environ.get("QUIZ_STUDIO_PORTABLE_ROOT", "").strip()
+if PORTABLE_ROOT:
+    APP_DIR = Path(PORTABLE_ROOT)
+elif getattr(sys, "frozen", False) and sys.platform.startswith("win"):
     APP_DIR = Path(os.environ.get("LOCALAPPDATA", str(Path.home()))) / "Quiz Studio"
 else:
     APP_DIR = SOURCE_DIR

@@ -30,7 +30,24 @@ if errorlevel 1 (
 )
 
 iscc "packaging\windows\QuizStudio.iss"
+
+set "CSC=%WINDIR%\Microsoft.NET\Framework64\v4.0.30319\csc.exe"
+if not exist "%CSC%" set "CSC=%WINDIR%\Microsoft.NET\Framework\v4.0.30319\csc.exe"
+if not exist "%CSC%" (
+  echo No se encontro el compilador de .NET Framework para el archivo portable.
+  popd
+  exit /b 1
+)
+if not exist "dist\portable" mkdir "dist\portable"
+"%CSC%" /nologo /target:winexe /out:"dist\portable\QuizStudioLauncher.exe" /r:System.IO.Compression.dll /r:System.IO.Compression.FileSystem.dll /r:System.Windows.Forms.dll "packaging\windows\PortableLauncher.cs"
+if errorlevel 1 (
+  echo No se pudo crear el lanzador portable.
+  popd
+  exit /b 1
+)
+powershell -NoProfile -ExecutionPolicy Bypass -File "packaging\windows\build_portable.ps1" -RuntimeDirectory "dist\Quiz Studio" -LauncherPath "dist\portable\QuizStudioLauncher.exe" -OutputPath "dist\portable\QuizStudio-Portable.exe"
 echo.
 echo Instalador creado: dist\installer\QuizStudio-Setup.exe
+echo Archivo portable creado: dist\portable\QuizStudio-Portable.exe
 popd
 endlocal
